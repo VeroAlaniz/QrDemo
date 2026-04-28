@@ -28,6 +28,37 @@
       object-fit: cover;
       display: none;
     }
+
+    /* 💀 POPUPS TROLL */
+    .popup {
+      position: fixed;
+      width: 200px;
+      height: 120px;
+      background: white;
+      color: black;
+      border: 2px solid red;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: shake 0.2s infinite;
+    }
+
+    @keyframes shake {
+      0% { transform: translate(0px, 0px); }
+      50% { transform: translate(3px, -3px); }
+      100% { transform: translate(-3px, 3px); }
+    }
+
+    /* 📱 responsive */
+    @media (max-width: 600px) {
+      .popup {
+        width: 120px;
+        height: 80px;
+        font-size: 10px;
+      }
+    }
   </style>
 </head>
 
@@ -37,11 +68,32 @@
   ▶ Click para ver contenido
 </div>
 
-<video id="video" loop>
-  <source src="video.mp4" type="video/mp4">
+<video id="video">
+  <source src="You Are An Idiot.mp4" type="video/mp4">
 </video>
 
+<!-- contenedor de popups -->
+<div id="popup-container"></div>
+
 <script>
+let popupCount = 0;
+const maxPopups = 15; // 🔥 límite seguro
+
+function spawnPopup() {
+  if (popupCount >= maxPopups) return;
+
+  const popup = document.createElement("div");
+  popup.className = "popup";
+  popup.innerText = "YOU ARE AN IDIOT";
+
+  popup.style.top = Math.random() * window.innerHeight + "px";
+  popup.style.left = Math.random() * window.innerWidth + "px";
+
+  document.getElementById("popup-container").appendChild(popup);
+
+  popupCount++;
+}
+
 function startDemo() {
   const video = document.getElementById("video");
 
@@ -56,7 +108,18 @@ function startDemo() {
     document.documentElement.requestFullscreen();
   }
 
-  // 🔥 cuando termina el video → redirige
+  // 💀 generar popups cada 300ms
+  setInterval(spawnPopup, 300);
+
+  // 💀 moverlos cada tanto
+  setInterval(() => {
+    document.querySelectorAll(".popup").forEach(p => {
+      p.style.top = Math.random() * window.innerHeight + "px";
+      p.style.left = Math.random() * window.innerWidth + "px";
+    });
+  }, 800);
+
+  // 🔥 redirección al terminar
   video.onended = () => {
     window.location.href = "explicacion.html";
   };
