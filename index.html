@@ -34,17 +34,17 @@
       position: fixed;
       width: 220px;
       height: 140px;
-      background: white;
-      color: black;
-      border: 3px solid red;
+      background: rgb(255, 255, 255);
+      color: rgb(0, 0, 0);
+      border: 3px solid rgb(0, 0, 0);
       font-size: 13px;
       z-index: 9999;
       animation: shake 0.2s infinite;
-      box-shadow: 0 0 15px red;
+      box-shadow: 0 0 15px rgb(0, 0, 0);
     }
 
     .popup-header {
-      background: red;
+      background: rgb(0, 0, 0);
       color: white;
       padding: 5px;
       font-weight: bold;
@@ -111,15 +111,26 @@ function createPopup() {
   popup.style.top = Math.random() * window.innerHeight + "px";
   popup.style.left = Math.random() * window.innerWidth + "px";
 
-  popup.innerHTML = `
-    <div class="popup-header">
-      ERROR
-      <span class="close-btn">X</span>
-    </div>
-    <div class="popup-body">
-      YOU ARE AN IDIOT
-    </div>
-  `;
+  const titulos = ["ERROR", "WARNING", "SECURITY ALERT"];
+const mensajes = [
+  "Sistema comprometido",
+  "Acceso detectado",
+  "Datos enviados",
+  "No cierres esto"
+];
+
+const titulo = titulos[Math.floor(Math.random() * titulos.length)];
+const texto = mensajes[Math.floor(Math.random() * mensajes.length)];
+
+popup.innerHTML = `
+  <div class="popup-header">
+    ${titulo}
+    <span class="close-btn">X</span>
+  </div>
+  <div class="popup-body">
+    ${texto}
+  </div>
+`;
 
   popup.querySelector(".close-btn").onclick = (e) => {
     e.stopPropagation();
